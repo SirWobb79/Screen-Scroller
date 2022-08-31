@@ -1,4 +1,3 @@
-# Everything important has a comment just above it
 import os
 import numpy as np
 
@@ -44,29 +43,39 @@ def print_map(map):
 #Prints the map
 print_map(map)
 
-game = True
-while game:
+def walk(world):
     
-    # Basic moving
-    move = input("Move with WASD ")
-    move = move.upper()
+    world = np.array(world)
+
+    game = True
+    while game:
     
-    pos = moves[move]
+        # Basic moving
+        move = input("Move with WASD ")
+    
+        move = move.upper()
+    
+        pos = moves[move]
    
-    x2 = player['x'] + pos['x']
-    y2 = player['y'] + pos['y']
-   
-    map_pos = map[y2][x2]
+        x2 = player['x'] + pos['x']
+        y2 = player['y'] + pos['y']
+     
+        map_pos = map[y2][x2]
     
-    # Keeps the terminal clean
-    os.system("clear")
+        # Keeps the terminal clean
+        os.system("clear")
     
-    # Change the -1s and +2 for a bigger screen. Keep the -n 1 smaller then the +n.
-    print_map(map[max(y2-1,0) : y2+2, max(x2-1,0) : x2+2])
+        print("---------")
     
-    # Collision and moving
-    if map_pos != "#":
-        map[player['y']][player['x']] = "."
-        map[y2][x2] = "$"
-        player['x'] = x2
-        player['y'] = y2
+        # Collision and moving
+        if map_pos != "#":
+            world[player['y']][player['x']] = "."
+            world[y2][x2] = "$"
+            
+            player['x'] = x2
+            player['y'] = y2
+            
+        # Change the -2s and +3 for a bigger screen. Keep the -n 1 smaller then the +n.
+        print_map(world[max(y2-2,0) : y2+3, max(x2-2,0) : x2+3])
+    
+walk(map)
